@@ -13,7 +13,8 @@ Distributed Hash Table.
 The second one is consensus protocol. I am thinking about using Raft, instead
 of Paxos. The main reason is because of understandability that Raft has. Last
 term I attemped to implement Paxos but it did not turn out very well. There
-were still a lot of aspects that I was uncertain. Hopefully Raft is easier.
+were still a lot of aspects of Paxos that I was uncertain about. Hopefully Raft
+is easier.
 
 The third one is routing/service discovery. At the momemnt, I am not sure how
 to do this yet. I know that Consul achieve this by DNS routing but that's all I
@@ -24,11 +25,11 @@ design/architecture and outline of the project.
 
 # Design
 
-TODO
+*TODO*
 
 # Timeline
 
-TODO
+*TODO*
 
 Here is the format that every week should follow:
 - Task
@@ -68,16 +69,17 @@ Arguments | Description
 `-r client -c update -h <host> -k <key> -v <value>` | Update a value for a key
 `-r client -c delete -h <host> -k <key>` | Delete a key
 
-You first start with a seed node.
-You join the seed node with as many as you want.
-When there are 3 nodes, leader election will occur.
-One is the leader, the rest are followers.
-As a client, you can read, write, update, delete a key/value in any of these
+*Step:*
+- You first start with a seed node.
+- You join the seed node with as many as you want.
+- When there are 3 nodes, leader election will occur.
+- One is the leader, the rest are followers.
+- As a client, you can read, write, update, delete a key/value in any of these
 nodes.
-The key/value should be replicated among themselves, no matter where you put it
+- The key/value should be replicated among themselves, no matter where you put it
 (it doesn't have to be the master)
-If you stop a node or mutiple nodes, the system should still work.
-If you stop the master, it will start the leader election again and everything
+- If you stop a node or mutiple nodes, the system should still work.
+- If you stop the master, it will start the leader election again and everything
 should still work.
 
 # Testing
