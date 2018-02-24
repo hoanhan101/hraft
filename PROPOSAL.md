@@ -25,11 +25,11 @@ design/architecture and outline of the project.
 
 # Design
 
-*TODO*
+**TODO**
 
 # Timeline
 
-*TODO*
+**TODO**
 
 Here is the format that every week should follow:
 - Task
@@ -69,7 +69,7 @@ Arguments | Description
 `-r client -c update -h <host> -k <key> -v <value>` | Update a value for a key
 `-r client -c delete -h <host> -k <key>` | Delete a key
 
-*Step:*
+**Step:**
 - You first start with a seed node.
 - You join the seed node with as many as you want.
 - When there are 3 nodes, leader election will occur.
