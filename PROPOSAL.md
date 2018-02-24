@@ -42,8 +42,7 @@ Here is how I see it working as the final product.
 
 CLI looks like this:
 ```
-Usage: python3 mgmt.py -r <role> -c <command> [-h <host>] [-k <key>] [-v
-<value>]
+Usage: python3 mgmt.py -r <role> -c <command> [-h <host>] [-k <key>] [-v <value>]
 Help:  Run the management system to control and execute tasks.
 Options:
       -r                Role to be defined.
