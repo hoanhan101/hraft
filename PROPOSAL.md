@@ -8,7 +8,7 @@ RPC, CAP theorem.
 There are 3 big components that it has: a key-value storage, consensus
 protocol and routing/service discovery.
 
-## A key-value storage
+### A key-value storage
 
 The most straightforward way is to use a hash table to store key-value pairs.
 It allows user to read and write in constant time. It's also very easy to use.
@@ -22,7 +22,7 @@ memory and the rest is on a disk.
 
 > Other caching systems to learn from? Redis, Memcached.
 
-## Consensus Protocol
+### Consensus Protocol
 
 A consensus protocol is critical in a distributed system because it allows a
 collection of machines to work as a coherent group that can survice failures of
@@ -36,7 +36,7 @@ Raft seems like a good fit. It is made to solve Paxos's understandability
 problem. It has been used by etcd, HashiCorp's Consul and continued to gain its
 popularity.
 
-## Routing/Service Discovery
+### Routing/Service Discovery
 
 The last piece of the system is routing/service discovery. At the momement,
 I am not sure how to do this yet. I know that HashiCorp's Consul achieve this 
@@ -67,7 +67,7 @@ Here is the format that every week should follow:
 
 # Final Product
 
-## CLI
+### CLI
 ```
 Usage: python3 mgmt.py -r <role> -c <command> [-h <host>] [-k <key>] [-v <value>]
 Help:  Run the management system to control and execute tasks.
@@ -109,7 +109,7 @@ nodes.
 should still work.
 
 
-## APIs
+### APIs
 
 List of exposed APIs for each node.
 
