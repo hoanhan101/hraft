@@ -110,8 +110,9 @@ Arguments | Description
 - I use other node to join the seed node or I can choose to join other node
   that are available in the system if I know its host. However, if I am able to
   implement the service discovery feature, I just need to tell it to `join` 
-  and it automatically know how to route to the right cluster. **Note: This is 
-  how I understand how service discovery should work, or maybe I am wrong**
+  and it automatically know how to route to the right cluster. 
+  > **Note**: This is how I understand how service discovery should work
+  > but I can be wrong
 - When there are 3 nodes, leader election will occur. One is the leader, the
   rest are followers.
 - Using the client machine, I can read, write, update or delete key-values in any
