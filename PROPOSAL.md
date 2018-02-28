@@ -45,8 +45,8 @@ I am not sure how to do this yet. I know that HashiCorp's Consul achieve this
 by DNS routing mechanism but I am not familar with its implementation.
 
 In Apache's Cassandra, a Distributed Hash Table is used, which maps key to
-specific node in the rings structure. However, that is not the same as service
-discovery.
+specific node in the rings structure. Same with Amazon DynamoDB, consistent
+hashing is also used. However, that is not the same as service discovery.
 
 > It would be helpful if you can provide any pointers for this.
 
@@ -138,13 +138,13 @@ Arguments | Description
 
 List of exposed APIs for each node.
 
-Endpoint | Description
--- | --
-`/read` | Read all keys and values
-`/read/<key>` | Read a value for a given key in a node
-`/write` | Write a value to a key in a node
-`/update` | Update a value for a key in a node
-`/delete/<key>` | Delete a key in a node
+Method | Endpoint | Description
+-- | -- | --
+`GET` | `/read` | Read all keys and values
+`GET` | `/read/<key>` | Read a value for a given key in a node
+`POST` | `/write` | Write a value to a key in a node
+`POST` | `/update` | Update a value for a key in a node
+`GET` | `/delete/<key>` | Delete a key in a node
 
 
 # Testing
