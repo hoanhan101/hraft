@@ -5,7 +5,7 @@ The goal of this project to gain a better understanding of some specific topics
 in distributed systems, such as: consensus algorithm, distributed hash table,
 RPC, CAP theorem.
 
-There are 3 big components that it has: a key-value storage, consensus
+There are 3 big components in the system: a key-value storage, consensus
 algorithm and routing/service discovery.
 
 ### A key-value storage
@@ -15,18 +15,18 @@ It allows user to read and write in constant time. It's also very easy to use.
 Particularly in Python, a dicionary is a hash table with supported CRUD 
 (Create, Read, Update, Delete) operations.
 
-However, using a hash table means I need to store everything in memory, which
+However, using a hash table means that I need to store everything in memory, which
 is not great when the data get big. One way to solve it is to store them in
-disk and use some kind of a cache system (LRU). Frequently visited data is kept in
+disk and use a cache system (LRU). Frequently visited data is kept in
 memory and the rest is on disk.
 
-> Other caching systems to learn from? Redis, Memcached.
+> There might be other caching systems to learn from such as Redis and Memcached.
 
 ### Consensus algorithm
 
 A consensus algorithm is critical in a distributed system because it allows a
 collection of machines to work as a coherent group that can survice failures of
-some its members. Paxos is undeniably the most popular algorithm but is also
+some its members. Paxos is undeniably the most popular algorithm. However, it is also
 known for its complexity. Understanding Paxos is hard. Last term I attempted to
 implement Paxos but it did not turn out very well. There were still a lot of 
 aspects that I was uncertain about. Therefore, I want to try something new this
@@ -36,17 +36,17 @@ Raft seems like a good fit. It is made to solve Paxos's understandability
 problem. It has been used by etcd, HashiCorp's Consul and continued to gain its
 popularity.
 
-> Quorum size?
-
 ### Routing/Service Discovery
 
-The last piece of the system is routing/service discovery. At the momement,
+The last piece of the system is routing/service discovery. At the moment,
 I am not sure how to do this yet. I know that HashiCorp's Consul achieve this 
 by DNS routing mechanism but I am not familar with its implementation.
 
 In Apache's Cassandra, a Distributed Hash Table is used, which maps key to
 specific node in the rings structure. Same with Amazon DynamoDB, consistent
 hashing is also used. However, that is not the same as service discovery.
+In the [final product](#final-product) section, I will give an example of
+service discovery behavior that I want.
 
 > It would be helpful if you can provide any pointers for this.
 
@@ -56,11 +56,12 @@ hashing is also used. However, that is not the same as service discovery.
 For the initial design, after looking at some similiar systems such as etcd,
 Amazon DynamoDB, Consul, I realize that getting the consensus algorithm right
 is the most important job, which in this case is Raft. As long as I have all
-the nodes performs resiliently using the protocol, building a key-value
-store on top seems much more easier. In other word, Raft does mosts of the
+the nodes perform resiliently using the protocol, building a key-value
+store on top seems much more natural. In other word, Raft does mosts of the
 heavylifting in the system.
 
-> This is my first assumption. I will update this as I take a closer look at
+> This is my first assumption. I can't think of any design/architecture other
+> than Raft's itself. I will update this as I take a closer look at
 > Raft as well as other documents.
 
 
@@ -68,30 +69,30 @@ heavylifting in the system.
 
 ### Week 1-2
 - Task:
-  - Finish up first draft of the proposal.
+  - Finish first draft of the proposal.
 - Approach:
-  - Read about similiar systems and learn how do they do it.
+  - Read about similiar systems and learn how do they implement it.
   - Come up with a solution myself that fits the scope of the project.
 - Deliverables:
-  - A resonable well-written first draft to start coding the next week.
+  - A resonable well-written first draft to start coding in the following week.
 
 ### Week 3-4
 - Task:
   - Implement a minimum version of Raft.
-  - Continue building up the proposal as I spend more time building Raft.
+  - Continue building up the proposal as I spend more time understanding Raft.
 - Approach:
-  - Start with Raft's white paper.
+  - Start adopting pseudocode in Raft's white paper.
   - Read other documents, watch videos if needed.
-  - Look at other implementations as references.
+  - Use others' implementations as references.
 - Deliverables:
   - A minimum working version of Raft.
 
 > I am not sure how long it'g gonna take for a minimum version of Raft so I
-> am just assuming that it will take at least 2 weeks. After that, it will be
-> the improvement and testing phase. So for now, I am leaving the timeline's
+> am assuming that it will take at least 2 weeks. After that, it will be
+> the improvement and testing phase. For now, I am leaving the timeline's
 > status for the rest of these weeks as *TODO*. However, I will update these
 > as long as I make progress with Raft's implementation and have a better
-> sense of how thing should be done.
+> picture of how things work.
 
 ### Week 5-6
 - Task:
@@ -160,6 +161,12 @@ Arguments | Description
 > `-r server -c list` should also update as changes are made: name, status,
 > type
 
+> Instead of having one file to manage between role and execute tasks, it would
+> be great if I can execute `hstore-server <command>` to
+> start/stop/kill/restart the server, `hstore-cli -h <host>`
+> to get inside the shell and do `set foo bar` or `get foo`. 
+> However, I am not sure how to do this yet.
+
 #### Steps
 
 - I first start with a seed node as a server.
@@ -167,8 +174,8 @@ Arguments | Description
   that are available in the system if I know its host. However, if I am able to
   implement the service discovery feature, I just need to tell it to `join` 
   and it automatically know how to route to the right cluster. 
-  > **Note**: This is how I understand how service discovery should work
-  > but I can be wrong
+  > **Note**: This is how I think a service discovery should work
+  > but I am not sure.
 - When there are 3 nodes, leader election will occur. One is the leader, the
   rest are followers.
 - Using the client machine, I can read, write, update or delete key-values in any
@@ -176,19 +183,11 @@ Arguments | Description
 - The key-values should be replicated among themselves, no matter where I put
   them. It means that I don't have to put a key-value in the master node in
   order for it to be propagated.
-
   > Should it behave this way? Or should I put a load balancer in front of
   > these nodes?
-
 - If I choose to stop a node or mutiple nodes, the system must still work.
 - If I stop the master, it will start the leader election again and everything
   should remain the same.
-
-> Instead of having one file to manage between role and execute tasks, it would
-> be great if I can execute `hstore-server <command>` to
-> start/stop/kill/restart the server, `hstore-cli -h <host>`
-> to get inside the shell and do `set foo bar` or `get foo`. 
-> However, I am not sure how to do this yet.
 
 ### APIs
 
