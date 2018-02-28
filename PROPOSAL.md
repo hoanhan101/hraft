@@ -18,7 +18,7 @@ Particularly in Python, a dicionary is a hash table with supported CRUD
 However, using a hash table means I need to store everything in memory, which
 is not great when the data get big. One way to solve it is to store them in
 disk and use some kind of a cache system (LRU). Frequently visited data is kept in
-memory and the rest is on a disk.
+memory and the rest is on disk.
 
 > Other caching systems to learn from? Redis, Memcached.
 
@@ -53,9 +53,6 @@ discovery.
 
 # Design
 
-In this sections, I will provide more details about the
-design/architecture and outline of the project.
-
 > TODO
 
 
@@ -88,22 +85,16 @@ Here are the lists of arguments with descriptions:
 
 Arguments | Description
 -- | --
-`-r server -c start -h <host>` | Start a seed node with a given host and prompt
-user into the shell.
-`-r server -c join -h <host>` | Join a node to a given host and prompt user
-into the shell.
-`-r server -c list` | List all available nodes showing their name, address,
-health status and type.
+`-r server -c start -h <host>` | Start a seed node with a given host and prompt user into the shell.
+`-r server -c join -h <host>` | Join a node to a given host and prompt user into the shell.
+`-r server -c list` | List all available nodes showing their name, address, health status and type.
 `-r server -c kill -h <host>` | Kill a node with a given host.
 `-r server -c stop -h <host>` | Stop a node with a given host.
 `-r server -c restart -h <host>` | Restart a node with a given host.
 `-r client -c read -h <host>` | Get all the keys and values for a given host.
-`-r client -c read -h <host> -k <key>` | Read a value for a given key, for a
-given host.
-`-r client -c write -h <host> -k <key> -v <value>` | Write a value to a key for
-a given host.
-`-r client -c update -h <host> -k <key> -v <value>` | Update a value for a key
-for a given host.
+`-r client -c read -h <host> -k <key>` | Read a value for a given key, for a given host.
+`-r client -c write -h <host> -k <key> -v <value>` | Write a value to a key for a given host.
+`-r client -c update -h <host> -k <key> -v <value>` | Update a value for a key for a given host.
 `-r client -c delete -h <host> -k <key>` | Delete a key for a given host.
 
 > Can also use the name of a node, instead of its host?
@@ -114,7 +105,7 @@ for a given host.
 > `-r server -c list` should also update as changes are made: name, status,
 > type
 
-**Step:**
+**Steps**
 - I first start with a seed node as a server.
 - I use other node to join the seed node or I can choose to join other node
   that are available in the system if I know its host. However, if I am able to
