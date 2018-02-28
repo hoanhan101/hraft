@@ -36,24 +36,28 @@ Raft seems like a good fit. It is made to solve Paxos's understandability
 problem. It has been used by etcd, HashiCorp's Consul and continued to gain its
 popularity.
 
+> Quorum size?
+
 ### Routing/Service Discovery
 
 The last piece of the system is routing/service discovery. At the momement,
 I am not sure how to do this yet. I know that HashiCorp's Consul achieve this 
-by DNS routing mechanism but I am not familiar that.
+by DNS routing mechanism but I am not familar with its implementation.
 
 In Apache's Cassandra, a Distributed Hash Table is used, which maps key to
 specific node in the rings structure. However, that is not the same as service
 discovery.
 
-
-In the sections below, I will provide more details about the
-design/architecture and outline of the project.
+> It would be helpful if you can provide any pointers for this.
 
 
 # Design
 
+In this sections, I will provide more details about the
+design/architecture and outline of the project.
+
 > TODO
+
 
 # Timeline
 
@@ -72,6 +76,7 @@ Here is the format that every week should follow:
 Usage: python3 mgmt.py -r <role> -c <command> [-h <host>] [-k <key>] [-v <value>]
 Help:  Run the management system to control and execute tasks.
 Options:
+      -n                Name of a node.
       -r                Role to be defined.
       -c                Command to be executed.
       -h                Host name, including address and port.
@@ -83,31 +88,59 @@ Here are the lists of arguments with descriptions:
 
 Arguments | Description
 -- | --
-`-r server -c start -h <host>` | Start a seed node
-`-r server -c join -h <host>` | Join a node
-`-r server -c list` | List all available nodes
-`-r server -c kill -h <host>` | Kill a node
-`-r server -c stop -h <host>` | Stop a node
-`-r server -c restart -h <host>` | Restart a node
-`-r client -c read -h <host>` | Get all the keys and values
-`-r client -c read -h <host> -k <key>` | Read a value for a given key
-`-r client -c write -h <host> -k <key> -v <value>` | Write a value to a key
+`-r server -c start -h <host>` | Start a seed node with a given host and prompt
+user into the shell.
+`-r server -c join -h <host>` | Join a node to a given host and prompt user
+into the shell.
+`-r server -c list` | List all available nodes showing their name, address,
+health status and type.
+`-r server -c kill -h <host>` | Kill a node with a given host.
+`-r server -c stop -h <host>` | Stop a node with a given host.
+`-r server -c restart -h <host>` | Restart a node with a given host.
+`-r client -c read -h <host>` | Get all the keys and values for a given host.
+`-r client -c read -h <host> -k <key>` | Read a value for a given key, for a
+given host.
+`-r client -c write -h <host> -k <key> -v <value>` | Write a value to a key for
+a given host.
 `-r client -c update -h <host> -k <key> -v <value>` | Update a value for a key
-`-r client -c delete -h <host> -k <key>` | Delete a key
+for a given host.
+`-r client -c delete -h <host> -k <key>` | Delete a key for a given host.
+
+> Can also use the name of a node, instead of its host?
+
+> How to make configurations dynamic? For example: name, type, health check
+> interval?
+
+> `-r server -c list` should also update as changes are made: name, status,
+> type
 
 **Step:**
-- You first start with a seed node.
-- You join the seed node with as many as you want.
-- When there are 3 nodes, leader election will occur.
-- One is the leader, the rest are followers.
-- As a client, you can read, write, update, or delete a key-value in any of these
-nodes.
-- The key-value should be replicated among themselves, no matter where you put it
-(it doesn't have to be the master)
-- If you stop a node or mutiple nodes, the system should still work.
-- If you stop the master, it will start the leader election again and everything
-should still work.
+- I first start with a seed node as a server.
+- I use other node to join the seed node or I can choose to join other node
+  that are available in the system if I know its host. However, if I am able to
+  implement the service discovery feature, I just need to tell it to `join` 
+  and it automatically know how to route to the right cluster. **Note: This is 
+  how I understand how service discovery should work, or maybe I am wrong**
+- When there are 3 nodes, leader election will occur. One is the leader, the
+  rest are followers.
+- Using the client machine, I can read, write, update or delete key-values in any
+  of these nodes.
+- The key-values should be replicated among themselves, no matter where I put
+  them. It means that I don't have to put a key-value in the master node in
+  order for it to be propagated.
 
+  > Should it behave this way? Or should I put a load balancer in front of
+  > these nodes?
+
+- If I choose to stop a node or mutiple nodes, the system must still work.
+- If I stop the master, it will start the leader election again and everything
+  should remain the same.
+
+> Instead of having one file to manage between role and execute tasks, it would
+> be great if I can execute `hstore-server <command>` to
+> start/stop/kill/restart the server, `hstore-cli -h <host>`
+> to get inside the shell and do `set foo bar` or `get foo`. 
+> However, I am not sure how to do this yet.
 
 ### APIs
 
@@ -130,8 +163,3 @@ There should be automated tests for the system.
 # Monitoring
 
 > TODO
-
-
-# Docker
-
-Everything should be dockerized.
