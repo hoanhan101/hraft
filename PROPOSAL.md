@@ -5,14 +5,14 @@ The goal of this project to gain a better understanding of some specific topics
 in distributed systems, such as: consensus algorithm, distributed hash table,
 RPC, CAP theorem.
 
-There are 3 big components in the system: a key-value storage, consensus
+There are 3 big components that I will discuss below: a key-value storage, consensus
 algorithm and routing/service discovery.
 
 ### A key-value storage
 
 The most straightforward way is to use a hash table to store key-value pairs.
 It allows user to read and write in constant time. It's also very easy to use.
-Particularly in Python, a dicionary is a hash table with supported CRUD 
+Particularly in Python, a dictionary is a hash table with supported CRUD 
 (Create, Read, Update, Delete) operations.
 
 However, using a hash table means that I need to store everything in memory, which
@@ -25,7 +25,7 @@ memory and the rest is on disk.
 ### Consensus algorithm
 
 A consensus algorithm is critical in a distributed system because it allows a
-collection of machines to work as a coherent group that can survice failures of
+collection of machines to work as a coherent group that can survive failures of
 some its members. Paxos is undeniably the most popular algorithm. However, it is also
 known for its complexity. Understanding Paxos is hard. Last term I attempted to
 implement Paxos but it did not turn out very well. There were still a lot of 
@@ -40,27 +40,27 @@ popularity.
 
 The last piece of the system is routing/service discovery. At the moment,
 I am not sure how to do this yet. I know that HashiCorp's Consul achieve this 
-by DNS routing mechanism but I am not familar with its implementation.
+by DNS routing mechanism but I am not familiar with its implementation.
 
 In Apache's Cassandra, a Distributed Hash Table is used, which maps key to
 specific node in the rings structure. Same with Amazon DynamoDB, consistent
 hashing is also used. However, that is not the same as service discovery.
 In the [final product](#final-product) section, I will give an example of
-service discovery behavior that I want.
+a service discovery's behavior that I want.
 
 > It would be helpful if you can provide any pointers for this.
 
 
 # Design
 
-For the initial design, after looking at some similiar systems such as etcd,
+For the initial design, after looking at some similar systems such as etcd,
 Amazon DynamoDB, Consul, I realize that getting the consensus algorithm right
 is the most important job, which in this case is Raft. As long as I have all
 the nodes perform resiliently using the protocol, building a key-value
-store on top seems much more natural. In other word, Raft does mosts of the
-heavylifting in the system.
+store on top seems much more natural. In other word, Raft does most of the
+heavy lifting for the system.
 
-> This is my first assumption. I can't think of any design/architecture other
+> This is my assumption. I can't think of any design/architecture other
 > than Raft's itself. I will update this as I take a closer look at
 > Raft as well as other documents.
 
@@ -71,10 +71,10 @@ heavylifting in the system.
 - Task:
   - Finish first draft of the proposal.
 - Approach:
-  - Read about similiar systems and learn how do they implement it.
+  - Read about similar systems and learn how do they implement it.
   - Come up with a solution myself that fits the scope of the project.
 - Deliverables:
-  - A resonable well-written first draft to start coding in the following week.
+  - A reasonable well-written first draft to start coding in the following week.
 
 ### Week 3-4
 - Task:
@@ -87,12 +87,12 @@ heavylifting in the system.
 - Deliverables:
   - A minimum working version of Raft.
 
-> I am not sure how long it'g gonna take for a minimum version of Raft so I
+> I am not sure how long it's gonna take for a minimum version of Raft so I
 > am assuming that it will take at least 2 weeks. After that, it will be
-> the improvement and testing phase. For now, I am leaving the timeline's
+> the improvement and testing phase. For now, I am leaving the all the
 > status for the rest of these weeks as *TODO*. However, I will update these
-> as long as I make progress with Raft's implementation and have a better
-> picture of how things work.
+> as long as I make progress with Raft's and have a better picture of how
+> things work.
 
 ### Week 5-6
 - Task:
@@ -185,7 +185,7 @@ Arguments | Description
   order for it to be propagated.
   > Should it behave this way? Or should I put a load balancer in front of
   > these nodes?
-- If I choose to stop a node or mutiple nodes, the system must still work.
+- If I choose to stop a node or multiple nodes, the system must still work.
 - If I stop the master, it will start the leader election again and everything
   should remain the same.
 
@@ -209,4 +209,4 @@ Method | Endpoint | Description
 
 # Monitoring
 
-> **TODO:** Having a dashboard to view the statistic is a good idea.
+> **TODO:** Having a dashboard to view all the statistics is a good idea.
