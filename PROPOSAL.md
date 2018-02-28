@@ -2,11 +2,11 @@
 
 In this paper, I will describe my plan to build a distributed key-value store.
 The goal of this project to gain a better understanding of some specific topics
-in distributed systems, such as: distributed hash table, consensus protocol,
+in distributed systems, such as: consensus algorithm, distributed hash table,
 RPC, CAP theorem.
 
 There are 3 big components that it has: a key-value storage, consensus
-protocol and routing/service discovery.
+algorithm and routing/service discovery.
 
 ### A key-value storage
 
@@ -22,9 +22,9 @@ memory and the rest is on disk.
 
 > Other caching systems to learn from? Redis, Memcached.
 
-### Consensus Protocol
+### Consensus algorithm
 
-A consensus protocol is critical in a distributed system because it allows a
+A consensus algorithm is critical in a distributed system because it allows a
 collection of machines to work as a coherent group that can survice failures of
 some its members. Paxos is undeniably the most popular algorithm but is also
 known for its complexity. Understanding Paxos is hard. Last term I attempted to
@@ -53,20 +53,75 @@ hashing is also used. However, that is not the same as service discovery.
 
 # Design
 
-> TODO
+For the initial design, after looking at some similiar systems such as etcd,
+Amazon DynamoDB, Consul, I realize that getting the consensus algorithm right
+is the most important job, which in this case is Raft. As long as I have all
+the nodes performs resiliently using the protocol, building a key-value
+store on top seems much more easier. In other word, Raft does mosts of the
+heavylifting in the system.
+
+> This is my first assumption. I will update this as I take a closer look at
+> Raft as well as other documents.
 
 
 # Timeline
 
-> TODO
+### Week 1-2
+- Task:
+  - Finish up first draft of the proposal.
+- Approach:
+  - Read about similiar systems and learn how do they do it.
+  - Come up with a solution myself that fits the scope of the project.
+- Deliverables:
+  - A resonable well-written first draft to start coding the next week.
 
-Here is the format that every week should follow:
-- Task
-- Approach
-- Deliverables
+### Week 3-4
+- Task:
+  - Implement a minimum version of Raft.
+  - Continue building up the proposal as I spend more time building Raft.
+- Approach:
+  - Start with Raft's white paper.
+  - Read other documents, watch videos if needed.
+  - Look at other implementations as references.
+- Deliverables:
+  - A minimum working version of Raft.
+
+> I am not sure how long it'g gonna take for a minimum version of Raft so I
+> am just assuming that it will take at least 2 weeks. After that, it will be
+> the improvement and testing phase. So for now, I am leaving the timeline's
+> status for the rest of these weeks as *TODO*. However, I will update these
+> as long as I make progress with Raft's implementation and have a better
+> sense of how thing should be done.
+
+### Week 5-6
+- Task:
+- Approach:
+- Deliverables:
+
+### Week 7-8
+- Task:
+- Approach:
+- Deliverables:
+
+### Week 9-10
+- Task:
+- Approach:
+- Deliverables:
+
+### Week 11-12
+- Task:
+- Approach:
+- Deliverables:
+
+### Week 13-14
+- Task:
+- Approach:
+- Deliverables:
 
 
 # Final Product
+
+This is how I see it working as the final product.
 
 ### CLI
 ```
@@ -105,7 +160,8 @@ Arguments | Description
 > `-r server -c list` should also update as changes are made: name, status,
 > type
 
-**Steps**
+#### Steps
+
 - I first start with a seed node as a server.
 - I use other node to join the seed node or I can choose to join other node
   that are available in the system if I know its host. However, if I am able to
@@ -140,18 +196,18 @@ List of exposed APIs for each node.
 
 Method | Endpoint | Description
 -- | -- | --
-`GET` | `/read` | Read all keys and values
-`GET` | `/read/<key>` | Read a value for a given key in a node
-`POST` | `/write` | Write a value to a key in a node
-`POST` | `/update` | Update a value for a key in a node
-`GET` | `/delete/<key>` | Delete a key in a node
+`GET` | `/read` | Read all keys and values.
+`GET` | `/read/<key>` | Read a value for a given key in a node.
+`POST` | `/write` | Write a value to a key in a node.
+`POST` | `/update` | Update a value for a key in a node.
+`GET` | `/delete/<key>` | Delete a key in a node.
 
 
 # Testing
 
-There should be automated tests for the system.
+> **TODO:** There should be automated tests for the system.
 
 
 # Monitoring
 
-> TODO
+> **TODO:** Having a dashboard to view the statistic is a good idea.
