@@ -86,7 +86,7 @@ Here are the lists of arguments with descriptions:
 Arguments | Description
 -- | --
 `-r server -c start -h <host>` | Start a seed node with a given host and prompt user into the shell.
-`-r server -c join -h <host>` | Join a node to a given host and prompt user into the shell.
+`-r server -c join [-h <host>]` | Join a node to the cluster and prompt user into the shell.
 `-r server -c list` | List all available nodes showing their name, address, health status and type.
 `-r server -c kill -h <host>` | Kill a node with a given host.
 `-r server -c stop -h <host>` | Stop a node with a given host.
