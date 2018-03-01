@@ -13,7 +13,7 @@ as a configuration control center. More interestingly, there are a lot of
 implementations take the core idea of a distributed key-value store to add more
 functionalities and features to build a better DevOps workflow such as
 HashiCorp's Consul or build a complete solution for NoSQL database such as
-MongoDB or in-memory database data structure store such as Redis.
+MongoDB, Cassandra or in-memory database data structure store such as Redis.
 
 My goal for this project to be able to implement a distributed key-value store
 from scratch as well as gain a better understanding of some specific topics in
@@ -55,8 +55,11 @@ aspects that I was uncertain about. Therefore, I want to try something new this
 term.
 
 Raft seems like a good fit. It is made to solve Paxos's understandability
-problem. It has been used by etcd, HashiCorp's Consul and continued to gain its
-popularity.
+problem. It has been used by a lot of organizations, such as etcd, 
+HashiCorp's Consul, Docker Swarm,... and continued to gain its popularity.
+
+> Hashicorp even provides a nice implementation of the Raft and it is
+> imported by [many systems](https://godoc.org/github.com/hashicorp/raft?importers)
 
 ### Routing/Service Discovery
 
@@ -104,9 +107,8 @@ heavy lifting for the system.
   - Implement a minimum version of Raft.
   - Continue building up the proposal as I spend more time understanding Raft.
 - Approach:
-  - Start adopting pseudocode in Raft's white paper.
-  - Read other documents, watch videos if needed.
-  - Use others' implementations as references.
+  - Start adopting pseudocode in Raft's original white paper.
+  - Use [MIT's lab](https://pdos.csail.mit.edu/6.824/labs/lab-raft.html) as a reference.
 - Deliverables:
   - A minimum working version of Raft.
 
@@ -208,6 +210,8 @@ Arguments | Description
   order for it to be propagated.
   > Should it behave this way? Or should I put a load balancer in front of
   > these nodes?
+
+  > How about a masterless architecture?
 - If I choose to stop a node or multiple nodes, the system must still work.
 - If I stop the master, it will start the leader election again and everything
   should remain the same.
