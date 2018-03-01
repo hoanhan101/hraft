@@ -8,12 +8,12 @@ stored on more than one node, often in a replicated fashion. Examples of
 existing systems are Google's Bigtable, Amazon's Dynamo, etcd...
 
 It is used in production by many companies that need to solve big data
-prodblem. It can also be found in different part of a distributed system acting
+problem. It can also be found in different part of a distributed system acting
 as a configuration control center. More interestingly, there are a lot of
 implementations take the core idea of a distributed key-value store to add more
 functionalities and features to build a better DevOps workflow such as
 HashiCorp's Consul or build a complete solution for NoSQL database such as
-MongoDB or im-memory database data structure store such as Redis.
+MongoDB or in-memory database data structure store such as Redis.
 
 My goal for this project to be able to implement a distributed key-value store
 from scratch as well as gain a better understanding of some specific topics in
