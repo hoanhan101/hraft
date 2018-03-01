@@ -116,7 +116,7 @@ heavy lifting for the system.
   > the idea of sharding.
   
   > One more interesting thing here is their language choice. They choose Go
-  > for their course. I am kind of debating wherether I should go or not.
+  > for their course. I am kind of debating whether I should go or not.
 
 - Deliverables:
   - A minimum working version of Raft.
