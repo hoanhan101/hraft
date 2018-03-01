@@ -1,11 +1,33 @@
 # Implementing a distributed key-value store
 
-In this paper, I will describe my plan to build a distributed key-value store.
-The goal of this project to gain a better understanding of some specific topics
-in distributed systems, such as: consensus algorithm, distributed hash table,
-RPC, CAP theorem.
 
-There are 3 big components that I will discuss below: a key-value storage, consensus
+## Introduction
+
+A distributed key-value store is a computer network where information is
+stored on more than one node, often in a replicated fashion. Examples of
+existing systems are Google's Bigtable, Amazon's Dynamo, etcd...
+
+It is used in production by many companies that need to solve big data
+prodblem. It can also be found in different part of a distributed system acting
+as a configuration control center. More interestingly, there are a lot of
+implementations take the core idea of a distributed key-value store to add more
+functionalities and features to build a better DevOps workflow such as
+HashiCorp's Consul or build a complete solution for NoSQL database such as
+MongoDB or im-memory database data structure store such as Redis.
+
+My goal for this project to be able to implement a distributed key-value store
+from scratch as well as gain a better understanding of some specific topics in
+distributed systems, such as: consensus algorithm, distributed hash table,
+RPC, CAP theorem. 
+
+In many sections below, I will talk about the design/architecture of the
+project, final product, testing and monitoring. I will also provide a timeline
+keep everything organized and on track.
+
+
+## Design
+
+There are 3 big components of the system: a key-value storage, consensus
 algorithm and routing/service discovery.
 
 ### A key-value storage
@@ -50,8 +72,7 @@ a service discovery's behavior that I want.
 
 > It would be helpful if you can provide any pointers for this.
 
-
-# Design
+### Sketch
 
 For the initial design, after looking at some similar systems such as etcd,
 Amazon DynamoDB, Consul, I realize that getting the consensus algorithm right
@@ -65,7 +86,7 @@ heavy lifting for the system.
 > Raft as well as other documents.
 
 
-# Timeline
+## Timeline
 
 ### Week 1-2
 - Task:
@@ -120,7 +141,7 @@ heavy lifting for the system.
 - Deliverables:
 
 
-# Final Product
+## Final Product
 
 This is how I see it working as the final product.
 
@@ -202,11 +223,11 @@ Method | Endpoint | Description
 `GET` | `/delete/<key>` | Delete a key in a node.
 
 
-# Testing
+## Testing
 
 > **TODO:** There should be automated tests for the system.
 
 
-# Monitoring
+## Monitoring
 
 > **TODO:** Having a dashboard to view all the statistics is a good idea.
