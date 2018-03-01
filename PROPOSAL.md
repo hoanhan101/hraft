@@ -110,14 +110,14 @@ heavy lifting for the system.
   - Start adopting pseudocode in Raft's original white paper.
   - Use [MIT's lab](https://pdos.csail.mit.edu/6.824/labs/lab-raft.html) as a reference.
 
-  > The nice thing about this MIT's Distributed System course is that their
-  > labs are built on top of Raft. They go through its implementation,
-  > add a distributed key-value service on top of it and eventually exploring
-  > the idea of sharding.
+    > The nice thing about this MIT's Distributed System course is that their
+    > labs are built on top of Raft. They go through its implementation,
+    > add a distributed key-value service on top of it and eventually exploring
+    > the idea of sharding.
   
-  > One more interesting thing here is their language choice. They choose Go
-  > for their course. I am kind of debating whether I should go with Go or
-  > Python.
+    > One more interesting thing here is their language choice. They choose Go
+    > for their course. I am kind of debating whether I should go with Go or
+    > Python.
 
 - Deliverables:
   - A minimum working version of Raft.
@@ -209,8 +209,9 @@ Arguments | Description
   that are available in the system if I know its host. However, if I am able to
   implement the service discovery feature, I just need to tell it to `join` 
   and it automatically know how to route to the right cluster. 
-  > **Note**: This is how I think a service discovery should work
-  > but I am not sure.
+
+  > This is how I think a service discovery should work but I am not sure.
+
 - When there are 3 nodes, leader election will occur. One is the leader, the
   rest are followers.
 - Using the client machine, I can read, write, update or delete key-values in any
