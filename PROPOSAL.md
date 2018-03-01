@@ -96,11 +96,9 @@ heavy lifting for the system.
 ### Week 1-2
 - Task:
   - Finish first draft of the proposal.
-
 - Approach:
   - Read about similar systems and learn how do they implement it.
   - Come up with a solution myself that fits the scope of the project.
-
 - Deliverables:
   - A reasonable well-written first draft to start coding in the following week.
 
@@ -108,19 +106,16 @@ heavy lifting for the system.
 - Task:
   - Implement a minimum version of Raft.
   - Continue building up the proposal as I spend more time understanding Raft.
-
 - Approach:
   - Start adopting pseudocode in Raft's original white paper.
   - Use [MIT's lab](https://pdos.csail.mit.edu/6.824/labs/lab-raft.html) as a reference.
+    > The nice thing about this MIT's Distributed System course is that their
+    > labs are built on top of Raft. They go through its implementation,
+    > add a distributed key-value service on top of it and eventually exploring
+    > the idea of sharding.
 
-  > The nice thing about this MIT's Distributed System course is that their
-  > labs are built on top of Raft. They go through its implementation,
-  > add a distributed key-value service on top of it and eventually exploring
-  > the idea of sharding.
-
-  > One more interesting thing here is their language choice. They choose Go
-  > for their course. I am kind of debating wherether I should go or not.
-
+    > One more interesting thing here is their language choice. They choose Go
+    > for their course. I am kind of debating wherether I should go or not.
 - Deliverables:
   - A minimum working version of Raft.
 
@@ -207,32 +202,24 @@ Arguments | Description
 #### Steps
 
 - I first start with a seed node as a server.
-
 - I use other node to join the seed node or I can choose to join other node
   that are available in the system if I know its host. However, if I am able to
   implement the service discovery feature, I just need to tell it to `join` 
   and it automatically know how to route to the right cluster. 
-
-  > **Note**: This is how I think a service discovery should work
-  > but I am not sure.
-
+    > **Note**: This is how I think a service discovery should work
+    > but I am not sure.
 - When there are 3 nodes, leader election will occur. One is the leader, the
   rest are followers.
-
 - Using the client machine, I can read, write, update or delete key-values in any
   of these nodes.
-
 - The key-values should be replicated among themselves, no matter where I put
   them. It means that I don't have to put a key-value in the master node in
   order for it to be propagated.
+    > Should it behave this way? Or should I put a load balancer in front of
+    > these nodes?
 
-  > Should it behave this way? Or should I put a load balancer in front of
-  > these nodes?
-
-  > How about a masterless architecture?
-
+    > How about a masterless architecture?
 - If I choose to stop a node or multiple nodes, the system must still work.
-
 - If I stop the master, it will start the leader election again and everything
   should remain the same.
 
