@@ -58,7 +58,7 @@ Raft seems like a good fit. It is made to solve Paxos's understandability
 problem. It has been used by a lot of organizations, such as etcd, 
 HashiCorp's Consul, Docker Swarm,... and continued to gain its popularity.
 
-> Hashicorp even provides a nice implementation of the Raft and it is
+> HashiCorp even provides a nice implementation of the Raft and it is
 > imported by [many systems](https://godoc.org/github.com/hashicorp/raft?importers).
 
 ### Routing/Service Discovery
