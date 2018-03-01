@@ -122,12 +122,12 @@ heavy lifting for the system.
 - Deliverables:
   - A minimum working version of Raft.
 
-> I am not sure how long it's gonna take for a minimum version of Raft so I
-> am assuming that it will take at least 2 weeks. After that, it will be
-> the improvement and testing phase. For now, I am leaving the all the
-> status for the rest of these weeks as *TODO*. However, I will update these
-> as long as I make progress with Raft's and have a better picture of how
-> things work.
+    > I am not sure how long it's gonna take for a minimum version of Raft so I
+    > am assuming that it will take at least 2 weeks. After that, it will be
+    > the improvement and testing phase. For now, I am leaving the all the
+    > status for the rest of these weeks as *TODO*. However, I will update these
+    > as long as I make progress with Raft's and have a better picture of how
+    > things work.
 
 ### Week 5-6
 - Task:
