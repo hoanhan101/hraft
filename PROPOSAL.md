@@ -109,13 +109,12 @@ heavy lifting for the system.
 - Approach:
   - Start adopting pseudocode in Raft's original white paper.
   - Use [MIT's lab](https://pdos.csail.mit.edu/6.824/labs/lab-raft.html) as a reference.
-    > The nice thing about this MIT's Distributed System course is that their
-    > labs are built on top of Raft. They go through its implementation,
-    > add a distributed key-value service on top of it and eventually exploring
-    > the idea of sharding.
-
-    > One more interesting thing here is their language choice. They choose Go
-    > for their course. I am kind of debating wherether I should go or not.
+    - > The nice thing about this MIT's Distributed System course is that their
+      > labs are built on top of Raft. They go through its implementation,
+      > add a distributed key-value service on top of it and eventually exploring
+      > the idea of sharding.
+    - > One more interesting thing here is their language choice. They choose Go
+      > for their course. I am kind of debating wherether I should go or not.
 - Deliverables:
   - A minimum working version of Raft.
 
