@@ -72,7 +72,13 @@ a service discovery's behavior that I want.
 
 > It would be helpful if you can provide any pointers for this.
 
-### Sketch
+### Flow
+
+> There should be some images in this section for the reader to visualize the
+> system easily. It also helps forming the flow of the system. I don't have one
+> yet and I can't think of any at the moment. Below is my assumption and excuse
+> for not having one. Will update this as I take a closer look at Raft as well
+> as other documents.
 
 For the initial design, after looking at some similar systems such as etcd,
 Amazon DynamoDB, Consul, I realize that getting the consensus algorithm right
@@ -80,10 +86,6 @@ is the most important job, which in this case is Raft. As long as I have all
 the nodes perform resiliently using the protocol, building a key-value
 store on top seems much more natural. In other word, Raft does most of the
 heavy lifting for the system.
-
-> This is my assumption. I can't think of any design/architecture other
-> than Raft's itself. I will update this as I take a closer look at
-> Raft as well as other documents.
 
 
 ## Timeline
