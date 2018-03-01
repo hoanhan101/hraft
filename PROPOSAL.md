@@ -12,8 +12,8 @@ problem. It can also be found in different part of a distributed system acting
 as a configuration control center. More interestingly, there are a lot of
 implementations take the core idea of a distributed key-value store to add more
 functionalities and features to build a better DevOps workflow such as
-HashiCorp's Consul or build a complete solution for NoSQL database such as
-MongoDB, Cassandra or in-memory database data structure store such as Redis.
+HashiCorp's Consul or a complete solution for NoSQL database such as
+MongoDB, Apache's Cassandra or in-memory database data structure store such as Redis.
 
 My goal for this project to be able to implement a distributed key-value store
 from scratch as well as gain a better understanding of some specific topics in
@@ -84,7 +84,7 @@ a service discovery's behavior that I want.
 > as other documents.
 
 For the initial design, after looking at some similar systems such as etcd,
-Amazon DynamoDB, Consul, I realize that getting the consensus algorithm right
+Amazon's DynamoDB, Consul, I realize that getting the consensus algorithm right
 is the most important job, which in this case is Raft. As long as I have all
 the nodes perform resiliently using the protocol, building a key-value
 store on top seems much more natural. In other word, Raft does most of the
