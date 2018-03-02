@@ -10,19 +10,19 @@ existing systems are Google's Bigtable, Amazon's Dynamo, etcd...
 It is used in production by many companies that need to solve big data
 problem. It can also be found in different part of a distributed system acting
 as a configuration control center. More interestingly, there are a lot of
-implementations take the core idea of a distributed key-value store to add more
+implementations that take the core idea of a distributed key-value store to add more
 functionalities and features to build a better DevOps workflow such as
-HashiCorp's Consul or a complete solution for NoSQL database such as
+HashiCorp's Consul or develop a complete solution for NoSQL database such as
 MongoDB, Apache's Cassandra or in-memory database data structure store such as Redis.
 
 My goal for this project to be able to implement a distributed key-value store
-from scratch as well as gain a better understanding of some specific topics in
+from scratch as well as to gain a better understanding of some specific topics in
 distributed systems, such as: consensus algorithm, distributed hash table,
 RPC, CAP theorem. 
 
 In many sections below, I will talk about the design/architecture of the
-project, final product, testing and monitoring. I will also provide a timeline
-to keep everything organized and on track.
+project, final product, testing and monitoring. I will also provide a timeline 
+with tasks, approaches and deliverables bi-weekly.
 
 
 ## Design
@@ -194,12 +194,9 @@ Arguments | Description
 > How to make configurations dynamic? For example: name, type, health checking
 > interval?
 
-> `-r server -c list` should also update as changes are made: name, status,
-> type
-
-> Instead of having one file to manage between role and execute tasks, it would
+> Instead of having one file to manage among roles and execute tasks, it would
 > be great if I can execute `hstore-server <command>` to
-> start/stop/kill/restart the server, `hstore-cli -h <host>`
+> start/stop/kill/restart the server, `hstore-client -h <host>`
 > to get inside the shell and do `set foo bar` or `get foo`. 
 > However, I am not sure how to do this yet.
 
@@ -212,7 +209,7 @@ Arguments | Description
   without explicitly specifying the host. It automatically know how to route 
   to the right cluster. 
 
-  > This is how I think a service discovery should work. However I am not sure.
+  > I think this is how a service discovery should work. However I am not sure.
 
 - When there are 3 nodes, leader election will occur. One is the leader, the
   rest are followers.
@@ -224,11 +221,11 @@ Arguments | Description
 
   > I feel like this behavior somewhat conflicts with the idea of Raft's leader
   > election. Because in Raft, there are one master at a time and the rest are
-  > followers. A log first go through the master then if the consensus is
-  > reach, it is replicated to other nodes in the cluster. However, in this
-  > situation I am proposing at the moment, it seems like there is no master 
-  > and every one has equal role. I can put a key-value anywhere in the cluster
-  > without caring about which one is the master.
+  > followers. A configuration first go through the master then if the consensus is
+  > reached, it is replicated to other nodes in the cluster. However, in this
+  > situation that I am proposing, it seems like there is no master 
+  > and every one has equal role. I can put a key-value anywhere in the
+  > cluster.
   
   > If I follow the masterless architecture, is it better to put a load
   > balancer in front of these nodes?
