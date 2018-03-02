@@ -73,7 +73,7 @@ hashing is used. However, it is not the same as service discovery.
 In the [final product section](#final-product), I will give an example of
 a service discovery's behavior that I want.
 
-> It would be helpful if you can provide any pointers for this.
+> **TODO:** Look at HashiCorp's Consul documentation
 
 ### Flow
 
@@ -113,19 +113,10 @@ heavy lifting for the system.
     > The great thing about this MIT's Distributed System course is that their
     > labs are built on top of Raft. They go through its implementation,
     > add a distributed key-value service on top of it and eventually exploring
-    > the idea of sharding. This is exactly what I want to do too. The only
+    > the idea of sharding. This is exactly what I want to do, too. The only
     > difference is that they have the idea of sharding while I have the idea
-    > for a service discovery feature (Well I guess I can do both if I have
-    > time). Do you think this is a good hands-on lab to start with and maybe
-    > follow throughout the term?
+    > for a service discovery feature.
   
-    > One more thing that I want to point out about this course is that, they
-    > write everything in Go. I am new to Go and haven't had a chance to try it
-    > out. Do you think is it good to go with Go, instead of Python?
-    > If the answer is "Yes", I need to modify the final product section below
-    > because I planned to implement the project in Python as well as the
-    > project's timeline.
-
 - Deliverables:
   - A minimum working version of Raft.
 
@@ -167,6 +158,9 @@ heavy lifting for the system.
 This is how I see it working as the final product.
 
 ### CLI
+
+> This should be changed to Go implementation's interface.
+
 ```
 Usage: python3 mgmt.py -r <role> -c <command> [-h <host>] [-k <key>] [-v <value>]
 Help:  Run the management system to control and execute tasks.
@@ -222,19 +216,13 @@ Arguments | Description
 - Using the client machine, I can read, write, update or delete key-values in any
   of these nodes.
 - The key-values should be replicated among themselves, no matter where I put
-  them. It means that I don't have to put a key-value in the master node in
-  order for it to be propagated.
+  them. If I put a key-value pair in the master node then it will eventually
+  propagated to other nodes. However, if I put a key-value pair in the
+  non-master node, it should redirect the request to the master and do the
+  consensus checking there. 
 
-  > I feel like this behavior somewhat conflicts with the idea of Raft's leader
-  > election. Because in Raft, there are one master at a time and the rest are
-  > followers. A configuration first go through the master then if the consensus is
-  > reached, it is replicated to other nodes in the cluster. However, in this
-  > situation that I am proposing, it seems like there is no master 
-  > and every one has equal role. I can put a key-value anywhere in the
-  > cluster.
-  
-  > If I follow the masterless architecture, is it better to put a load
-  > balancer in front of these nodes?
+  > In this situation, s it better to put a load balancer in front of
+  > these non-master nodes?
 
 - If I choose to stop a node or multiple nodes, the system must still work.
 - If I stop the master, it will start the leader election again if and only if
