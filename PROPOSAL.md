@@ -22,7 +22,7 @@ RPC, CAP theorem.
 
 In many sections below, I will talk about the design/architecture of the
 project, final product, testing and monitoring. I will also provide a timeline
-keep everything organized and on track.
+to keep everything organized and on track.
 
 
 ## Design
@@ -39,7 +39,7 @@ Particularly in Python, a dictionary is a hash table with supported CRUD
 
 However, using a hash table means that I need to store everything in memory, which
 is not great when the data get big. One way to solve it is to store them in
-disk and use a cache system (LRU). Frequently visited data is kept in
+disk and use a cache system (something like LRU). Frequently visited data is kept in
 memory and the rest is on disk.
 
 > There might be other caching systems to learn from such as Redis and Memcached.
@@ -65,12 +65,12 @@ HashiCorp's Consul, Docker Swarm,... and continued to gain its popularity.
 
 The last piece of the system is routing/service discovery. At the moment,
 I am not sure how to do this yet. I know that HashiCorp's Consul achieve this 
-by DNS routing mechanism but I am not familiar with its implementation.
+by using a DNS routing mechanism but I am not familiar with its implementation.
 
 In Apache's Cassandra, a Distributed Hash Table is used, which maps key to
-specific node in the rings structure. Same with Amazon DynamoDB, consistent
-hashing is also used. However, that is not the same as service discovery.
-In the [final product](#final-product) section, I will give an example of
+specific node in the rings structure. Similar with Amazon DynamoDB, consistent
+hashing is used. However, it is not the same as service discovery.
+In the [final product section](#final-product), I will give an example of
 a service discovery's behavior that I want.
 
 > It would be helpful if you can provide any pointers for this.
@@ -84,8 +84,8 @@ a service discovery's behavior that I want.
 > as other documents.
 
 For the initial design, after looking at some similar systems such as etcd,
-Amazon's DynamoDB, Consul, I realize that getting the consensus algorithm right
-is the most important job, which in this case is Raft. As long as I have all
+Amazon's DynamoDB, Consul,... I realize that getting the consensus algorithm right
+is the most important job, which is Raft in this case. As long as I have all
 the nodes perform resiliently using the protocol, building a key-value
 store on top seems much more natural. In other word, Raft does most of the
 heavy lifting for the system.
@@ -110,7 +110,7 @@ heavy lifting for the system.
   - Start adopting pseudocode in Raft's original white paper.
   - Use [MIT's lab](https://pdos.csail.mit.edu/6.824/labs/lab-raft.html) as a reference.
 
-    > The nice thing about this MIT's Distributed System course is that their
+    > The great thing about this MIT's Distributed System course is that their
     > labs are built on top of Raft. They go through its implementation,
     > add a distributed key-value service on top of it and eventually exploring
     > the idea of sharding.
@@ -157,7 +157,8 @@ heavy lifting for the system.
 
 ## Final Product
 
-This is how I see it working as the final product.
+This is how I see it working as the final product. The implementation is
+written in Python.
 
 ### CLI
 ```
@@ -190,7 +191,7 @@ Arguments | Description
 
 > Can also use the name of a node, instead of its host?
 
-> How to make configurations dynamic? For example: name, type, health check
+> How to make configurations dynamic? For example: name, type, health checking
 > interval?
 
 > `-r server -c list` should also update as changes are made: name, status,
@@ -208,9 +209,10 @@ Arguments | Description
 - I use other node to join the seed node or I can choose to join other node
   that are available in the system if I know its host. However, if I am able to
   implement the service discovery feature, I just need to tell it to `join` 
-  and it automatically know how to route to the right cluster. 
+  without explicitly specifying the host. It automatically know how to route 
+  to the right cluster. 
 
-  > This is how I think a service discovery should work but I am not sure.
+  > This is how I think a service discovery should work. However I am not sure.
 
 - When there are 3 nodes, leader election will occur. One is the leader, the
   rest are followers.
@@ -220,14 +222,20 @@ Arguments | Description
   them. It means that I don't have to put a key-value in the master node in
   order for it to be propagated.
 
-  > Should it behave this way? Or should I put a load balancer in front of
-  > these nodes?
-
-  > How about a masterless architecture?
+  > I feel like this behavior somewhat conflicts with the idea of Raft's leader
+  > election. Because in Raft, there are one master at a time and the rest are
+  > followers. A log first go through the master then if the consensus is
+  > reach, it is replicated to other nodes in the cluster. However, in this
+  > situation I am proposing at the moment, it seems like there is no master 
+  > and every one has equal role. I can put a key-value anywhere in the cluster
+  > without caring about which one is the master.
+  
+  > If I follow the masterless architecture, is it better to put a load
+  > balancer in front of these nodes?
 
 - If I choose to stop a node or multiple nodes, the system must still work.
-- If I stop the master, it will start the leader election again and everything
-  should remain the same.
+- If I stop the master, it will start the leader election again if and only if
+  the quorum size is big enough. Everything should behave the same way.
 
 ### APIs
 
@@ -246,7 +254,12 @@ Method | Endpoint | Description
 
 > **TODO:** There should be automated tests for the system.
 
+> Other than unit test, integration test (if needed), end to end test (if
+> needed), how to introduce failure injections/exercises for the system,
+> exploring its behavior in the face of crashes and network partitioning?
+
 
 ## Monitoring
 
-> **TODO:** Having a dashboard to view all the statistics is a good idea.
+> **TODO:** Having a dashboard to view all the statistics is a good idea. Can
+> be a simple web page or just a CLI.
