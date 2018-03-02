@@ -113,17 +113,24 @@ heavy lifting for the system.
     > The great thing about this MIT's Distributed System course is that their
     > labs are built on top of Raft. They go through its implementation,
     > add a distributed key-value service on top of it and eventually exploring
-    > the idea of sharding.
+    > the idea of sharding. This is exactly what I want to do too. The only
+    > difference is that they have the idea of sharding while I have the idea
+    > for a service discovery feature (Well I guess I can do both if I have
+    > time). Do you think this is a good hands-on lab to start with and maybe
+    > follow throughout the term?
   
-    > One more interesting thing here is their language choice. They choose Go
-    > for their course. I am kind of debating whether I should go with Go or
-    > Python.
+    > One more thing that I want to point out about this course is that, they
+    > write everything in Go. I am new to Go and haven't had a chance to try it
+    > out. Do you think is it good to go with Go, instead of Python?
+    > If the answer is "Yes", I need to modify the final product section below
+    > because I planned to implement the project in Python as well as the
+    > timeline?
 
 - Deliverables:
   - A minimum working version of Raft.
 
     > I am not sure how long it's gonna take for a minimum version of Raft so I
-    > am assuming that it will take at least 2 weeks. After that, it will be
+    > am assuming that it will take at least 2-3 weeks. After that, it will be
     > the improvement and testing phase. For now, I am leaving the all the
     > status for the rest of these weeks as *TODO*. However, I will update these
     > as long as I make progress with Raft's and have a better picture of how
@@ -157,8 +164,7 @@ heavy lifting for the system.
 
 ## Final Product
 
-This is how I see it working as the final product. The implementation is
-written in Python.
+This is how I see it working as the final product.
 
 ### CLI
 ```
