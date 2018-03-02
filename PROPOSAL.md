@@ -124,7 +124,7 @@ heavy lifting for the system.
     > out. Do you think is it good to go with Go, instead of Python?
     > If the answer is "Yes", I need to modify the final product section below
     > because I planned to implement the project in Python as well as the
-    > timeline?
+    > project's timeline.
 
 - Deliverables:
   - A minimum working version of Raft.
