@@ -22,7 +22,7 @@ RPC, CAP theorem.
 
 In many sections below, I will talk about the design/architecture of the
 project, final product, testing and monitoring. I will also provide a timeline 
-with tasks, approaches and deliverables bi-weekly.
+with tasks, approaches and deliverables in a bi-weekly basis.
 
 
 ## Design
