@@ -28,7 +28,7 @@ RPC, CAP theorem. Another goal is to be familiar building distributed systems
 using [Go](https://golang.org/) language.
 
 In many sections below, I will talk about the design/architecture of the
-project, final product, testing and monitoring. I will also provide a timeline 
+project, final product, testing. I will also provide a timeline 
 with tasks, approaches and deliverables in a bi-weekly basis.
 
 
@@ -252,6 +252,10 @@ Method | Endpoint | Description
 `POST` | `/update` | Update a value for a key in a node.
 `GET` | `/delete/<key>` | Delete a key in a node.
 
+### UI
+
+> Something like [etcd's playground](http://play.etcd.io/play) is nice to have
+> for better visualization.
 
 ## Testing
 
@@ -260,9 +264,3 @@ Method | Endpoint | Description
 > Other than unit test, integration test (if needed), end to end test (if
 > needed), how to introduce failure injections/exercises for the system,
 > exploring its behavior in the face of crashes and network partitioning?
-
-
-## Monitoring
-
-> **TODO:** Having a dashboard to view all the statistics is a good idea. Can
-> be a simple web page or just a CLI.
