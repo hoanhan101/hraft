@@ -5,21 +5,27 @@
 
 A distributed key-value store is a computer network where information is
 stored on more than one node, often in a replicated fashion. Examples of
-existing systems are Google's Bigtable, Amazon's Dynamo, etcd...
+existing systems are [Apache Cassandra](http://cassandra.apache.org/), 
+[Google's Bigtable](https://cloud.google.com/bigtable/), 
+[Amazon's Dynamo](https://aws.amazon.com/dynamodb/),
+[MongoDB](https://www.mongodb.com/), [etcd](https://coreos.com/etcd/).
 
 It is used in production by many companies that need to solve big data
 problem. It can also be found in different part of a distributed system acting
 as a configuration control center. More interestingly, there are some
-implementations that take the core idea of a distributed key-value store to add more
-functionalities and features. One of these is to build a better DevOps workflow such as
-HashiCorp's Consul or develop a complete solution for NoSQL database such as
-MongoDB, Apache's Cassandra or in-memory data structure database such as Redis.
+implementations that take the idea of a distributed key-value store and 
+add more functionalities and features on top of that. One interesting
+implementation is [HashiCorp's Consul](https://www.consul.io/) where 
+they build a distributed, highly available, and data center aware solution 
+to connect and configure applications across dynamic, distributed infrastructure. 
+There is also [Redis](https://redis.io/) that is an in-memory data structure store, 
+used as a database, cache and message broker.
 
 My goal for this project is to be able to implement a distributed key-value store
 from scratch as well as to gain a better understanding of some specific topics in
 distributed systems, such as: consensus algorithm, distributed hash table,
-RPC, CAP theorem. Another goal is to be familiar building a distributed system
-with Golang.
+RPC, CAP theorem. Another goal is to be familiar building distributed systems 
+using [Go](https://golang.org/) language.
 
 In many sections below, I will talk about the design/architecture of the
 project, final product, testing and monitoring. I will also provide a timeline 
@@ -56,9 +62,10 @@ implement Paxos but it did not turn out very well. There were still a lot of
 aspects that I was uncertain about. Therefore, I want to try something new this
 term.
 
-Raft seems like a good fit. It is made to solve Paxos's understandability
-problem. It has been used by a lot of organizations, such as etcd, 
-HashiCorp's Consul, Docker Swarm,... and continued to gain its popularity.
+[Raft](https://raft.github.io/) seems like a good fit. 
+It is made to solve Paxos's understandability problem. It has been used by a 
+lot of organizations, such as etcd, HashiCorp's Consul, Docker Swarm,... 
+and continued to gain its popularity.
 
 > HashiCorp even provides a nice implementation of the Raft and it is
 > imported by [many systems](https://godoc.org/github.com/hashicorp/raft?importers).
@@ -84,18 +91,17 @@ a service discovery's behavior that I want.
 > yet and I can't think of any at the moment. I will update this as I take a 
 > closer look at Raft as well as other documents.
 
-For the initial design, after looking at some similar systems such as etcd,
-Amazon's DynamoDB, Consul,... I realize that getting the consensus algorithm right
-is the most important job, which is Raft in this case. As long as I have all
-the nodes perform resiliently using the protocol, building a key-value
-store on top seems much more natural. In other word, Raft does most of the
-heavy lifting for the system.
+After looking at some similar systems, I realize that getting the consensus 
+algorithm right in the first place is the most important job.
+As long as I have all the nodes perform resiliently using the protocol, 
+building a key-value store on top seems much more natural.
+In other word, Raft does most of the heavy lifting for the system.
 
 
 ## Timeline
 
 I am using [MIT's 6.824 Distributed System course](https://pdos.csail.mit.edu/6.824/index.html) 
-as a guideline for my implementation. Their labs provides pointers and 
+as a guideline for my implementation. Their labs provide pointers and 
 resources on how to build a fault-tolerant key-value storage, which is exactly
 what I want to accomplish for this project. They start with Raft implementation, 
 add a distributed key-value service on top of it and eventually exploring 
