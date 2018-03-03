@@ -9,17 +9,17 @@ existing systems are Google's Bigtable, Amazon's Dynamo, etcd...
 
 It is used in production by many companies that need to solve big data
 problem. It can also be found in different part of a distributed system acting
-as a configuration control center. More interestingly, there are a lot of
+as a configuration control center. More interestingly, there are some
 implementations that take the core idea of a distributed key-value store to add more
 functionalities and features. One of these is to build a better DevOps workflow such as
 HashiCorp's Consul or develop a complete solution for NoSQL database such as
 MongoDB, Apache's Cassandra or in-memory data structure database such as Redis.
 
-The main goal for this project to be able to implement a distributed key-value store
+My goal for this project is to be able to implement a distributed key-value store
 from scratch as well as to gain a better understanding of some specific topics in
 distributed systems, such as: consensus algorithm, distributed hash table,
-RPC, CAP theorem. Since the project is implemented in Go, another goal is to be
-familiar with Go while buildng a distributed system.
+RPC, CAP theorem. Another goal is to be familiar building a distributed system
+with Golang.
 
 In many sections below, I will talk about the design/architecture of the
 project, final product, testing and monitoring. I will also provide a timeline 
@@ -35,7 +35,7 @@ algorithm and routing/service discovery.
 
 The most straightforward way is to use a hash table to store key-value pairs.
 It allows user to read and write in constant time. It's also very easy to use.
-In modern programming languages, hash table data structure is normally built in
+In modern programming languages, hash table data structure is normally built-in
 as a form of map (or dictionary) with supported CRUD (Create, Read, Update,
 Delete) operations.
 
@@ -94,6 +94,15 @@ heavy lifting for the system.
 
 ## Timeline
 
+I am using [MIT's 6.824 Distributed System course](https://pdos.csail.mit.edu/6.824/index.html) 
+as a guideline for my implementation. Their labs provides pointers and 
+resources on how to build a fault-tolerant key-value storage, which is exactly
+what I want to accomplish for this project. They start with Raft implementation, 
+add a distributed key-value service on top of it and eventually exploring 
+the idea of sharding.
+
+My timeline is also largely dependent on their course's schedule.
+
 ### Week 1-2
 - Task:
   - Finish first draft of the proposal.
@@ -109,27 +118,18 @@ heavy lifting for the system.
   - Continue building up the proposal as I spend more time understanding Raft.
 - Approach:
   - Start adopting pseudocode in Raft's original white paper.
-  - Use [MIT's lab](https://pdos.csail.mit.edu/6.824/labs/lab-raft.html) as a reference.
-
-    > The great thing about this MIT's Distributed System course is that their
-    > labs are built on top of Raft. They go through its implementation,
-    > add a distributed key-value service on top of it and eventually exploring
-    > the idea of sharding. This is exactly what I want to do, too. Since their
-    > resources are available online, it's a good idea to use them as a
-    > reference for my implementation.
-  
 - Deliverables:
   - A minimum working version of Raft.
 
-    > I am not sure how long it's gonna take for a minimum version of Raft so I
-    > am assuming that it will take at least 2-3 weeks. After that, it will be
-    > the improvement and testing phase. For now, I am leaving the all the
-    > status for the rest of these weeks as *TODO*. However, I will update these
-    > as long as I make progress with Raft's and have a better picture of how
-    > things work.
+    > I am not sure how long it's gonna take for a minimum version of Raft so 
+    I am assuming that it will take at least 2-3 weeks. For now, I am leaving 
+    > the all the status for the rest of these weeks as *TODO*. However, I
+    > will update these as long as I make progress with Raft's and have a
+    > better picture of how things work.
 
 ### Week 5-6
 - Task:
+  - Build a key-value store using Raft library.
 - Approach:
 - Deliverables:
 
@@ -160,7 +160,7 @@ This is how I see it working as the final product.
 
 ### CLI
 
-```shell
+```
 NAME:
    hstore - hstore shell
 
@@ -181,7 +181,6 @@ COMMANDS:
      restart        Restart a node 
      read           Read a value for a key 
      write          Write a value to a key
-     read           Read a value for a key 
      update         Update a value for a key 
      delete         Delete a key-value pair 
      help, h        Shows a list of commands or help for one command
