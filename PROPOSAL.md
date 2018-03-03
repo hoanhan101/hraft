@@ -11,14 +11,15 @@ It is used in production by many companies that need to solve big data
 problem. It can also be found in different part of a distributed system acting
 as a configuration control center. More interestingly, there are a lot of
 implementations that take the core idea of a distributed key-value store to add more
-functionalities and features to build a better DevOps workflow such as
+functionalities and features. One of these is to build a better DevOps workflow such as
 HashiCorp's Consul or develop a complete solution for NoSQL database such as
-MongoDB, Apache's Cassandra or in-memory database data structure store such as Redis.
+MongoDB, Apache's Cassandra or in-memory data structure database such as Redis.
 
-My goal for this project to be able to implement a distributed key-value store
+The main goal for this project to be able to implement a distributed key-value store
 from scratch as well as to gain a better understanding of some specific topics in
 distributed systems, such as: consensus algorithm, distributed hash table,
-RPC, CAP theorem. 
+RPC, CAP theorem. Since the project is implemented in Go, another goal is to be
+familiar with Go while buildng a distributed system.
 
 In many sections below, I will talk about the design/architecture of the
 project, final product, testing and monitoring. I will also provide a timeline 
@@ -34,8 +35,9 @@ algorithm and routing/service discovery.
 
 The most straightforward way is to use a hash table to store key-value pairs.
 It allows user to read and write in constant time. It's also very easy to use.
-Particularly in Python, a dictionary is a hash table with supported CRUD 
-(Create, Read, Update, Delete) operations.
+In modern programming languages, hash table data structure is normally built in
+as a form of map (or dictionary) with supported CRUD (Create, Read, Update,
+Delete) operations.
 
 However, using a hash table means that I need to store everything in memory, which
 is not great when the data get big. One way to solve it is to store them in
@@ -73,15 +75,14 @@ hashing is used. However, it is not the same as service discovery.
 In the [final product section](#final-product), I will give an example of
 a service discovery's behavior that I want.
 
-> **TODO:** Look at HashiCorp's Consul documentation
+> **TODO:** Spend more time looking at HashiCorp's Consul documentation.
 
 ### Flow
 
 > There should be some images in this section for the reader to visualize the
 > system easily. It also helps forming the flow of the system. I don't have one
-> yet and I can't think of any at the moment. Below is my assumption and excuse
-> for not having one. Will update this as I take a closer look at Raft as well
-> as other documents.
+> yet and I can't think of any at the moment. I will update this as I take a 
+> closer look at Raft as well as other documents.
 
 For the initial design, after looking at some similar systems such as etcd,
 Amazon's DynamoDB, Consul,... I realize that getting the consensus algorithm right
@@ -113,9 +114,9 @@ heavy lifting for the system.
     > The great thing about this MIT's Distributed System course is that their
     > labs are built on top of Raft. They go through its implementation,
     > add a distributed key-value service on top of it and eventually exploring
-    > the idea of sharding. This is exactly what I want to do, too. The only
-    > difference is that they have the idea of sharding while I have the idea
-    > for a service discovery feature.
+    > the idea of sharding. This is exactly what I want to do, too. Since their
+    > resources are available online, it's a good idea to use them as a
+    > reference for my implementation.
   
 - Deliverables:
   - A minimum working version of Raft.
@@ -159,46 +160,52 @@ This is how I see it working as the final product.
 
 ### CLI
 
-> This should be changed to Go implementation's interface.
+```shell
+NAME:
+   hstore - hstore shell
 
+USAGE:
+   hstore [global options] role [role options] command [command options] [-h <host>] [-k <key>] [-v <value>]
+VERSION:
+   0.1.0
+
+AUTHORS:
+   Hoanh An <hoanhan@bennington.edu>
+
+COMMANDS:
+     start          Start a node
+     join           Join a node to another node
+     list           List all avaiable nodes
+     kill           Kill a node
+     stop           Stop a node
+     restart        Restart a node 
+     read           Read a value for a key 
+     write          Write a value to a key
+     read           Read a value for a key 
+     update         Update a value for a key 
+     delete         Delete a key-value pair 
+     help, h        Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --help, -h                                  show help
+   --version, -v                               print the version
 ```
-Usage: python3 mgmt.py -r <role> -c <command> [-h <host>] [-k <key>] [-v <value>]
-Help:  Run the management system to control and execute tasks.
-Options:
-      -n                Name of a node.
-      -r                Role to be defined.
-      -c                Command to be executed.
-      -h                Host name, including address and port.
-      -k                Key to be stored.
-      -v                Value corresponding to the key.
-```
 
-Here are the lists of arguments with descriptions:
+Here are the lists of example commands: 
 
-Arguments | Description
+Commands | Description
 -- | --
-`-r server -c start -h <host>` | Start a seed node with a given host and prompt user into the shell.
-`-r server -c join [-h <host>]` | Join a node to the cluster and prompt user into the shell.
-`-r server -c list` | List all available nodes showing their name, address, health status and type.
-`-r server -c kill -h <host>` | Kill a node with a given host.
-`-r server -c stop -h <host>` | Stop a node with a given host.
-`-r server -c restart -h <host>` | Restart a node with a given host.
-`-r client -c read -h <host>` | Get all the keys and values for a given host.
-`-r client -c read -h <host> -k <key>` | Read a value for a given key, for a given host.
-`-r client -c write -h <host> -k <key> -v <value>` | Write a value to a key for a given host.
-`-r client -c update -h <host> -k <key> -v <value>` | Update a value for a key for a given host.
-`-r client -c delete -h <host> -k <key>` | Delete a key for a given host.
-
-> Can also use the name of a node, instead of its host?
-
-> How to make configurations dynamic? For example: name, type, health checking
-> interval?
-
-> Instead of having one file to manage among roles and execute tasks, it would
-> be great if I can execute `hstore-server <command>` to
-> start/stop/kill/restart the server, `hstore-client -h <host>`
-> to get inside the shell and do `set foo bar` or `get foo`. 
-> However, I am not sure how to do this yet.
+`hstore server start -h <host>` | Start a seed node with a given host and prompt user into the shell.
+`hstore server join [-h <host>]` | Join a node to the cluster and prompt user into the shell.
+`hstore server list` | List all available nodes showing their name, address, health status and type.
+`hstore server kill -h <host>` | Kill a node with a given host.
+`hstore server stop -h <host>` | Stop a node with a given host.
+`hstore server restart -h <host>` | Restart a node with a given host.
+`hstore client read -h <host>` | Get all the keys and values for a given host.
+`hstore client read -h <host> -k <key>` | Read a value for a given key, for a given host.
+`hstore client write -h <host> -k <key> -v <value>` | Write a value to a key for a given host.
+`hstore client update -h <host> -k <key> -v <value>` | Update a value for a key for a given host.
+`hstore client delete -h <host> -k <key>` | Delete a key for a given host.
 
 #### Steps
 
@@ -221,7 +228,7 @@ Arguments | Description
   non-master node, it should redirect the request to the master and do the
   consensus checking there. 
 
-  > In this situation, s it better to put a load balancer in front of
+  > In this situation, is it better to put a load balancer in front of
   > these non-master nodes?
 
 - If I choose to stop a node or multiple nodes, the system must still work.
