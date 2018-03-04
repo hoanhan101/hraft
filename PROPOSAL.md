@@ -75,10 +75,6 @@ and continued to gain its popularity.
 The last piece of the system is routing/service discovery. At the moment,
 I am not sure how to do this yet. I know that HashiCorp's Consul achieve this 
 by using a DNS routing mechanism but I am not familiar with its implementation.
-
-In Apache's Cassandra, a Distributed Hash Table is used, which maps key to
-specific node in the rings structure. Similar with Amazon DynamoDB, consistent
-hashing is used. However, it is not the same as service discovery.
 In the [final product section](#final-product), I will give an example of
 a service discovery's behavior that I want.
 
