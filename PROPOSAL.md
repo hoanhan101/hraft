@@ -121,12 +121,11 @@ My timeline is also largely dependent on their course's schedule.
 - Approach:
   - [Lab 1: MapReduce](https://pdos.csail.mit.edu/6.824/labs/lab-1.html)
 - Deliverables:
-  - Working MapReduce library
+  - A working MapReduce library.
 
 ### Week 5-6
 - Task:
   - Implement a minimum version of Raft.
-  - Continue building up the proposal as I spend more time understanding Raft.
 - Approach:
   - [Lab 2: Raft](https://pdos.csail.mit.edu/6.824/labs/lab-raft.html)
 - Deliverables:
