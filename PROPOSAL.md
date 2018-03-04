@@ -112,38 +112,45 @@ My timeline is also largely dependent on their course's schedule.
   - Read about similar systems and learn how do they implement it.
   - Come up with a solution myself that fits the scope of the project.
 - Deliverables:
-  - A reasonable well-written first draft to start coding in the following week.
+  - A reasonable well-written first draft.
 
 ### Week 3-4
+- Task:
+  - Get familiar with Go by going through MapReduce's implementation.
+  - Start thinking about Raft implementation and update the proposal along the way.
+- Approach:
+  - [Lab 1: MapReduce](https://pdos.csail.mit.edu/6.824/labs/lab-1.html)
+- Deliverables:
+  - Working MapReduce library
+
+### Week 5-6
 - Task:
   - Implement a minimum version of Raft.
   - Continue building up the proposal as I spend more time understanding Raft.
 - Approach:
-  - Start adopting pseudocode in Raft's original white paper.
+  - [Lab 2: Raft](https://pdos.csail.mit.edu/6.824/labs/lab-raft.html)
 - Deliverables:
-  - A minimum working version of Raft.
-
-    > I am not sure how long it's gonna take for a minimum version of Raft so 
-    I am assuming that it will take at least 2-3 weeks. For now, I am leaving 
-    > the all the status for the rest of these weeks as *TODO*. However, I
-    > will update these as long as I make progress with Raft's and have a
-    > better picture of how things work.
-
-### Week 5-6
-- Task:
-  - Build a key-value store using Raft library.
-- Approach:
-- Deliverables:
+  - A working version of Raft.
 
 ### Week 7-8
 - Task:
+  - Build a key-value store using Raft library.
 - Approach:
+  - [Lab 3: Fault-tolerant Key/Value Service](https://pdos.csail.mit.edu/6.824/labs/lab-kvraft.html)
+  - [Lab 4: Sharded Key/Value Service](https://pdos.csail.mit.edu/6.824/labs/lab-shard.html)
 - Deliverables:
+  - A robust key-value store that "shards
+
+> For now, I am leaving the rest of the weeks' tasks as *TODO*. Will update
+> when I have a better understanding of the system.
 
 ### Week 9-10
 - Task:
+  - Implement a service discovery feature
 - Approach:
+  - TODO
 - Deliverables:
+  - TODO
 
 ### Week 11-12
 - Task:
