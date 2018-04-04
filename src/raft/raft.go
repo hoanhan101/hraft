@@ -75,17 +75,17 @@ type Raft struct {
 
 	// Persistent state on all servers
 	// Update on stable storage before responding to RPCs
-	currentTerm int         // latest term server has seen
-	votedFor    int         // candidateID that received vote in current term
-	logs        []LogEntry  // log entries that contain command for state machine
+	currentTerm int        // latest term server has seen
+	votedFor    int        // candidateID that received vote in current term
+	logs        []LogEntry // log entries that contain command for state machine
 
 	// Volatile state on all servers
-	commitIndex int         // index of highest log entry known to be committed
-	lastApplied int         // index of highest log entry applied to state machine
+	commitIndex int // index of highest log entry known to be committed
+	lastApplied int // index of highest log entry applied to state machine
 
 	// Volatile state on leaders (reinitialized after election)
-	nextIndex  []int        // index of next log entry to send to that server
-	matchIndex []int        // index of highest log entry known to be replicated
+	nextIndex  []int // index of next log entry to send to that server
+	matchIndex []int // index of highest log entry known to be replicated
 }
 
 //
@@ -385,7 +385,7 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.isLeader = false
 	rf.votedFor = -1
 
-	// Reinitialzie after election
+	// Initialzie indexes of log entries
 	rf.nextIndex = make([]int, len(peers))
 	rf.matchIndex = make([]int, len(peers))
 
@@ -406,8 +406,8 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.heartbeatInterval = time.Millisecond * 100
 
 	// Debugging message
-	DPrintf("raft.go \t Peer %d - Timeout: %s, Heartbeat: %s\n",
-            rf.me, rf.electionTimeout, rf.heartbeatInterval)
+    DPrintf("raft.go \t Peer %d - Term %d: Timeout: %s\n",
+		rf.me, rf.currentTerm, rf.electionTimeout)
 
 	// Initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
@@ -449,7 +449,7 @@ func (rf *Raft) canvassVotes() {
 	replies := make(chan RequestVoteReply, peers)
 
 	// Send RequestVoteRPC to all peers and
-	// pull RequestVoteReply to replies channel
+	// pull RequestVoteReply to the replies channel
 	var wg sync.WaitGroup
 	for i := 0; i < peers; i++ {
 		if i == rf.me {
@@ -476,19 +476,19 @@ func (rf *Raft) canvassVotes() {
 
 	var votes = 1
 	for reply := range replies {
+		// If receives votes from majority of servers, becomes a leader
+		// If we found a leader, step down to be a follower
 		if reply.VoteGranted == true {
-			// If receives votes from majority of servers, becomes a leader
 			if votes++; votes > peers/2 {
 				DPrintf("raft.go \t Peer %d - Term %d: Won the election", rf.me, rf.currentTerm)
 				rf.mu.Lock()
 				rf.isLeader = true
 				rf.mu.Unlock()
 
-				// Send AppendEntries heartbeats to all servers
+				// Once it becomes a leader, send heartbeat to all others servers
 				go rf.heartbeatDaemon()
 				return
 			}
-			// If we found a new leader, step down to be a follower
 		} else if reply.Term > voteArgs.Term {
 			rf.mu.Lock()
 			rf.isLeader = false
@@ -536,8 +536,8 @@ func (rf *Raft) heartbeat(n int) {
 
 			// If we found a new leader, step down to be a follower
 			if reply.Term > rf.currentTerm {
-				DPrintf("raft.go \t Peer %d - Term %d: Found a new Leader on Term %d", 
-                        rf.me, rf.currentTerm, reply.Term)
+				DPrintf("raft.go \t Peer %d - Term %d: Found a new Leader on Term %d",
+					rf.me, rf.currentTerm, reply.Term)
 				rf.currentTerm = reply.Term
 				rf.isLeader = false
 				rf.votedFor = -1
